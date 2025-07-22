@@ -41,6 +41,7 @@ function Signup () {
             onError: (ctx) => {
                 // display the error message from server
                 setErrorMsg(ctx.error.message);
+                console.log(ctx.error.message);
             },
         });
         // if(error) setErrorMsg(error.message);
@@ -95,6 +96,8 @@ function Signup () {
             <input
               type="email"
               value={email}
+              name="email"
+              id="email"
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Enter your email"
@@ -105,6 +108,8 @@ function Signup () {
 
           {/* Password Input */}
           <input
+            name="password"
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
