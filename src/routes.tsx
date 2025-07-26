@@ -1,5 +1,6 @@
 import Signup from "./pages/auth/signup";
 import ErrorPage from "./pages/errorPage";
+import { Dashboard } from "./pages/dashboard";
 
 const routes = [
     {
@@ -7,9 +8,9 @@ const routes = [
       element: <Signup />,
       errorElement: <ErrorPage/>
     },
-    // {
-    //   path: "/dashboard",
-    //   element: <Dashboard />,
+    {
+      path: "/dashboard",
+      element: <Dashboard />,
     //   children: [
     //     {
     //       path: "",
@@ -24,7 +25,7 @@ const routes = [
     // {
     //   path: "/game_details/:name/:id",
     //   element: <GameDetails />
-    // }
+    }
   ]
 
 export default routes;

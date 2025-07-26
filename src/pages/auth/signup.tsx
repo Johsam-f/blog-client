@@ -3,6 +3,7 @@ import { authClient } from "@/lib/auth-client";
 import { FcGoogle } from "react-icons/fc";
 import { Mail } from "lucide-react";
 import { object, string } from "better-auth";
+import { useNavigate } from "react-router-dom";
 
 function Signup () {
     const [email, setEmail] = useState("");
@@ -10,17 +11,14 @@ function Signup () {
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
+    const navigate = useNavigate();
 
-//   const handleGoogleSignup = async () => {
-//     setLoading(true);
-//     try {
-//       await signIn("google", { callbackUrl: "/" });
-//     } catch (error) {
-//       console.error(error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+  const handleGoogleSignup = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard"
+    })  
+  };
 
   const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,15 +27,16 @@ function Signup () {
             email, // user email address
             password, // user password -> min 8 characters by default
             name, // user display name
-            //image, // User image URL (optional)
             callbackURL: "/dashboard" // A URL to redirect to after the user verifies their email (optional)
         }, {
             onRequest: (ctx) => {
                 setLoading(true);
+                console.log(name, password, email);
             },
             onSuccess: (ctx) => {
                 //redirect to the dashboard or sign in page
-            },
+                navigate("/dashboard");            
+              },
             onError: (ctx) => {
                 // display the error message from server
                 setErrorMsg(ctx.error.message);
@@ -65,8 +64,9 @@ function Signup () {
         
         {/* Google Sign Up */}
         <button
-        //   onClick={handleGoogleSignup}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-white py-2 text-black shadow-md transition hover:bg-gray-100"
+          type="button"
+          onClick={handleGoogleSignup}
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-white py-2 text-black shadow-md transition hover:bg-gray-300 cursor-pointer"
           disabled={loading}
         >
           <FcGoogle className="text-xl" />
