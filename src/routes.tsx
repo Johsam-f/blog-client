@@ -1,30 +1,26 @@
 import Signup from "./pages/auth/signup";
 import ErrorPage from "./pages/errorPage";
-import { Dashboard } from "./pages/dashboard";
+import Dashboard from "./pages/dashboard";
+import PostDetails from "./pages/postDetails";
+import Login from "./pages/auth/login";
 
 const routes = [
+  {
+    path: "/",
+    element: <Dashboard />,
+    errorElement: <ErrorPage/>
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
     {
-      path: "/",
-      element: <Signup />,
-      errorElement: <ErrorPage/>
-    },
-    {
-      path: "/dashboard",
-      element: <Dashboard />,
-    //   children: [
-    //     {
-    //       path: "",
-    //       element: <Games />
-    //     },
-    //     {
-    //       path: "games/:category",
-    //       element: <Games />
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: "/game_details/:name/:id",
-    //   element: <GameDetails />
+      path: "/post/:slug",
+      element: <PostDetails />
     }
   ]
 
