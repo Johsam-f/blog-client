@@ -9,21 +9,25 @@ import Button from "@/components/ui/button";
 function Signup () {
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<"google" | "facebook" | null>(null);
 
   const handleGoogleSignup = async () => {
-    try { 
+    setLoading("google");
+    try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/dashboard"
-      }) 
+        callbackURL: "/dashboard",
+      });
     } catch (error) {
       console.error(error);
-      setErrorMsg("something went wrong try again");
+      setErrorMsg("Something went wrong with Google signup.");
+      setLoading(null);
     }
-    
   };
+  
 
   const handleFacebookSignup = async () => {
+    setLoading("facebook");
     try {
       await authClient.signIn.social({
         provider: "facebook",
@@ -31,9 +35,11 @@ function Signup () {
       });
     } catch (error) {
       console.error(error);
-      setErrorMsg("Facebook signup failed. Please try again.");
+      setErrorMsg("Facebook signup failed.");
+      setLoading(null);
     }
   };
+  
 
   const navigateToEmail = () => { 
     navigate("/emailSignUp");
@@ -49,14 +55,31 @@ function Signup () {
       )}
       
       {/* Google Sign Up */}
-      <Button onClick={handleGoogleSignup} variant="secondary">
-        <FcGoogle className="text-xl" />
+      <Button
+        onClick={handleGoogleSignup}
+        variant="secondary"
+        disabled={loading === "google"}
+      >
+        {loading === "google" ? (
+          <span className="animate-spin mr-2 h-4 w-4 border-2 border-black border-t-transparent rounded-full"></span>
+        ) : (
+          <FcGoogle className="text-xl mr-2" />
+        )}
         Continue with Google
       </Button>
 
       {/* Facebook Sign Up */}
-      <Button onClick={handleFacebookSignup} variant="secondary" className="mt-4">
-        <FaFacebook className="text-xl mr-2 text-blue-600" />
+      <Button
+        onClick={handleFacebookSignup}
+        variant="secondary"
+        className="mt-3"
+        disabled={loading === "facebook"}
+      >
+        {loading === "facebook" ? (
+          <span className="animate-spin mr-2 h-4 w-4 border-2 border-black border-t-transparent rounded-full"></span>
+        ) : (
+          <FaFacebook className="text-xl mr-2 text-blue-600" />
+        )}
         Continue with Facebook
       </Button>
 
