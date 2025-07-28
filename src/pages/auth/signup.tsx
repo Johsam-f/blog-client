@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 import { Mail } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@/components/ui/button";
+
 function Signup () {
   const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleGoogleSignup = async () => {
     try { 
@@ -18,6 +22,22 @@ function Signup () {
     }
     
   };
+
+  const handleFacebookSignup = async () => {
+    try {
+      await authClient.signIn.social({
+        provider: "facebook",
+        callbackURL: "/dashboard",
+      });
+    } catch (error) {
+      console.error(error);
+      setErrorMsg("Facebook signup failed. Please try again.");
+    }
+  };
+
+  const navigateToEmail = () => { 
+    navigate("/emailSignUp");
+  }
 
   return (
     <div className="w-full max-w-md rounded-2xl bg-white/10 p-8 shadow-2xl backdrop-blur-md">
@@ -34,13 +54,23 @@ function Signup () {
         Continue with Google
       </Button>
 
+      {/* Facebook Sign Up */}
+      <Button onClick={handleFacebookSignup} variant="secondary" className="mt-4">
+        <FaFacebook className="text-xl mr-2 text-blue-600" />
+        Continue with Facebook
+      </Button>
+
       <div className="my-6 flex items-center">
         <div className="h-px flex-1 bg-gray-500"></div>
         <p className="mx-2 text-gray-300">or</p>
         <div className="h-px flex-1 bg-gray-500"></div>
       </div>
 
-      <Button variant="secondary">create Account with email <Mail /> </Button>
+      <Button onClick={navigateToEmail} variant="secondary">create Account with email <Mail /> </Button>
+
+      <div className="mt-4 text-gray-300">
+        Have an account already? <Link to={"/"} className="text-blue-600 hover:underline"> Login</Link>
+      </div>
     </div>
   );
 };
