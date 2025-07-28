@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import { Mail } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@/components/ui/button";
 
-function Signup () {
+function Signup() {
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
-  const [loading, setLoading] = useState<"google" | "facebook" | null>(null);
+  const [loading, setLoading] = useState<"google" | "github" | null>(null);
 
   const handleGoogleSignup = async () => {
     setLoading("google");
@@ -24,36 +24,38 @@ function Signup () {
       setLoading(null);
     }
   };
-  
 
-  const handleFacebookSignup = async () => {
-    setLoading("facebook");
+  const handleGithubSignup = async () => {
+    setLoading("github");
     try {
       await authClient.signIn.social({
-        provider: "facebook",
+        provider: "github",
         callbackURL: "/dashboard",
       });
     } catch (error) {
       console.error(error);
-      setErrorMsg("Facebook signup failed.");
+      setErrorMsg("GitHub signup failed.");
       setLoading(null);
     }
   };
-  
 
-  const navigateToEmail = () => { 
+  const navigateToEmail = () => {
     navigate("/emailSignUp");
-  }
+  };
 
   return (
     <div className="w-full max-w-md rounded-2xl bg-white/10 p-8 shadow-2xl backdrop-blur-md">
-      <h1 className="mb-6 text-center text-2xl font-bold text-white">Sign Up to Find All blogs</h1>
+      <h1 className="mb-6 text-center text-2xl font-bold text-white">
+        Sign Up to Find All blogs
+      </h1>
 
       {/* --- Error Message --- */}
       {errorMsg && (
-        <p className="mb-4 p-1 rounded-sm text-center bg-red-800">{errorMsg}</p>
+        <p className="mb-4 p-1 rounded-sm text-center bg-red-800 text-white">
+          {errorMsg}
+        </p>
       )}
-      
+
       {/* Google Sign Up */}
       <Button
         onClick={handleGoogleSignup}
@@ -68,19 +70,19 @@ function Signup () {
         Continue with Google
       </Button>
 
-      {/* Facebook Sign Up */}
+      {/* GitHub Sign Up */}
       <Button
-        onClick={handleFacebookSignup}
+        onClick={handleGithubSignup}
         variant="secondary"
         className="mt-3"
-        disabled={loading === "facebook"}
+        disabled={loading === "github"}
       >
-        {loading === "facebook" ? (
+        {loading === "github" ? (
           <span className="animate-spin mr-2 h-4 w-4 border-2 border-black border-t-transparent rounded-full"></span>
         ) : (
-          <FaFacebook className="text-xl mr-2 text-blue-600" />
+          <FaGithub className="text-xl mr-2 text-black" />
         )}
-        Continue with Facebook
+        Continue with GitHub
       </Button>
 
       <div className="my-6 flex items-center">
@@ -89,13 +91,18 @@ function Signup () {
         <div className="h-px flex-1 bg-gray-500"></div>
       </div>
 
-      <Button onClick={navigateToEmail} variant="secondary">create Account with email <Mail /> </Button>
+      <Button onClick={navigateToEmail} variant="secondary">
+        Create Account with Email <Mail className="ml-2" />
+      </Button>
 
       <div className="mt-4 text-gray-300">
-        Have an account already? <Link to={"/"} className="text-blue-600 hover:underline"> Login</Link>
+        Have an account already?{" "}
+        <Link to={"/"} className="text-blue-600 hover:underline">
+          Login
+        </Link>
       </div>
     </div>
   );
-};
+}
 
 export default Signup;
