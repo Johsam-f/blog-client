@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { FcGoogle } from "react-icons/fc";
 import { Mail } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import Button from "@/components/ui/button";
 function Signup () {
   const [errorMsg, setErrorMsg] = useState("");
