@@ -14,7 +14,7 @@ function Login() {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/adminDashboard",
+        callbackURL: "/dashboard",
       });
     } catch (error) {
       console.error(error);
@@ -28,7 +28,7 @@ function Login() {
     try {
       await authClient.signIn.social({
         provider: "github",
-        callbackURL: "/adminDashboard",
+        callbackURL: "/dashboard",
       });
     } catch (error) {
       console.error(error);
