@@ -87,7 +87,7 @@ function Signup() {
 
       <div className="mt-4 text-gray-300">
         Have an account already?{" "}
-        <Link to={"/signup"} className="text-blue-600 hover:underline">
+        <Link to={"/login"} className="text-blue-600 hover:underline">
           Login
         </Link>
       </div>
